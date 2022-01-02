@@ -1,0 +1,22 @@
+body {
+    background-color: red;
+}
+
+.center {
+    margin: auto;
+width:  20%;
+/* border: 5px solid black; */
+padding: 10px;
+}
+
+.top {
+    display: flex;  
+}
+
+.tasks {
+    padding-left: 1rem;
+}
+
+.list {
+    padding: 0;
+}

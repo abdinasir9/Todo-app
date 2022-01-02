@@ -1,30 +1,16 @@
-
 const { countReset } = require('console');
 const express = require('express');
 const Joi = require('joi');
-const lodash = require('lodash');
+const { v4: uuidv4 } = require('uuid');
 const app = express();
 app.use(express.json());
 const {send} = require('process');
+app.set('view engine','ejs');
 
-const  allTask = [
-  { id  : 1,
-    task: "bathroom",
-    status: "done"
-  },
-  { id  : 2,
-    task: "car",
-    status: "done"
-  },
-  { 
-    id  :3,
-    task: "laundry",
-    status: "done"
-  }
-];
+const  allTask = [];
 
 app.get('/', (req, res) => {
-    res.send('hello world')
+    res.render('index');
 }) 
 app.get('/allTask' ,(req,res) => {
   res.json(allTask);
@@ -32,7 +18,7 @@ app.get('/allTask' ,(req,res) => {
 })
 
 app.get('/allTask/:id', (req,res) => {
-  const task = allTask.find(c => c.id === parseInt(req.params.id));
+  const task = allTask.find(c => c.id === req.params.id);
   if(!task) res.status(404).send("Task wasnt found");
   res.send(task);
 
@@ -50,19 +36,17 @@ app.post('/api/allTask', (req,res) => {
 
  };
  const task = {
-   id: allTask.length + 1,
+   id: uuidv4(),
    task : req.body.task,
    status: "done"
  };
  allTask.push(task);
  res.send(task);
-  allTask.push(req.body)
-  console.log(req.task);
   res.send('okay')
 });
 
 app.put('/allTask/:id', (req,res) => {
-  const task =  allTask.find(c => c.id === parseInt(req.params.id));
+  const task =  allTask.find(c => c.id === req.params.id)
   if(!task) res.status(400).send("course cant be found");
 
   const schema = {
@@ -81,7 +65,7 @@ app.put('/allTask/:id', (req,res) => {
 });
 
 app.delete('/allTask/:id', (req,res) => {
-  const task =  allTask.find(c => c.id === parseInt(req.params.id));
+  const task =  allTask.find(c => c.id === req.params.id);
   if(!task) res.status(400).send("course cant be found");
 
   const index = allTask.indexOf(task)
