@@ -1,6 +1,6 @@
 const { countReset } = require('console');
 const express = require('express');
-const Joi = require('joi');
+const joi = require('joi');
 const { v4: uuidv4 } = require('uuid');
 const app = express();
 app.use(express.json());
@@ -9,9 +9,6 @@ app.set('view engine','ejs');
 
 const  allTask = [];
 
-app.get('/', (req, res) => {
-    res.render('index');
-}) 
 app.get('/allTask' ,(req,res) => {
   res.json(allTask);
     
@@ -25,11 +22,12 @@ app.get('/allTask/:id', (req,res) => {
 });
 
 
-app.post('/api/allTask', (req,res) => {
-  const schema = { 
-    task : Joi.string().min(3).required()
-} ;
-  const result = Joi.validate(req.body,schema);
+app.post('/allTask', (req,res) => {
+  const schema = joi.object({ 
+    task : joi.string().min(3).required()
+  })
+
+  const result = schema.validate(req.body);
   if (result.error){
     res.send(400).send(result.error.details[0].message) 
     return;
@@ -47,13 +45,13 @@ app.post('/api/allTask', (req,res) => {
 
 app.put('/allTask/:id', (req,res) => {
   const task =  allTask.find(c => c.id === req.params.id)
-  if(!task) res.status(400).send("course cant be found");
+  if(!task) res.status(400).send("task was not found");
 
-  const schema = {
-    task : Joi.string().min(3).required()
-};
+  const schema = joi.object({
+    task : joi.string().min(3).required()
+  })
 
-  const result = Joi.validate(req.body,schema);
+  const result = schema.validate(req.body);
   if (result.error) {
     res.status(400).send(result.error.details[0].message)
     return;
@@ -66,7 +64,7 @@ app.put('/allTask/:id', (req,res) => {
 
 app.delete('/allTask/:id', (req,res) => {
   const task =  allTask.find(c => c.id === req.params.id);
-  if(!task) res.status(400).send("course cant be found");
+  if(!task) res.status(400).send("task was not found");
 
   const index = allTask.indexOf(task)
   allTask.splice(index,1);
