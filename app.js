@@ -7,7 +7,14 @@ app.use(express.json());
 const {send} = require('process');
 app.set('view engine','ejs');
 
-const  allTask = [];
+const  allTask = [
+  {id: "4e66200a-f34c-4255-8dd2-c0e6e75b6451",
+  name: "wash car"},
+  {id: "b3d11524-31dc-4e08-bf76-b9c8c326b7cf",
+  name: "read book"},
+  {id: "92d665ba-616c-419f-aaf7-93dac7c7367a",
+  name: "eat ceral"}
+];
 
 app.get('/allTask' ,(req,res) => {
   res.json(allTask);
@@ -75,4 +82,3 @@ app.delete('/allTask/:id', (req,res) => {
 console.log("the server has started on localhost 8080");
 app.listen('8080');
 
-  
