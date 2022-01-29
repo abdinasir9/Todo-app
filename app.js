@@ -2,8 +2,10 @@ const { countReset } = require('console');
 const express = require('express');
 const joi = require('joi');
 const { v4: uuidv4 } = require('uuid');
+const cors = require('cors')
 const app = express();
 app.use(express.json());
+app.use(cors())
 const {send} = require('process');
 app.set('view engine','ejs');
 
