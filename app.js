@@ -76,7 +76,7 @@ app.put('/allTask/:id', (req,res) => {
   res.send(task);
 
 
-});
+});  
 
 app.delete('/allTask/:id', (req,res) => {
   const task =  allTask.find(c => c.id === req.params.id);
